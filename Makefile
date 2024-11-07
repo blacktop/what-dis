@@ -13,3 +13,5 @@ build:
 release:
 	@echo "🚀 Releasing Version $(shell svu current)"
 	goreleaser build --id default --clean --snapshot --single-target --output dist/what-dis
+
+.DEFAULT_GOAL := build

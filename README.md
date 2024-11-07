@@ -31,7 +31,19 @@
 go install github.com/blacktop/what-dis@latest
 ```
 
-<!-- Fill this out -->
+```bash
+❯ what-dis
+
+Describe an image
+
+Usage:
+  what-dis <IMAGE> [flags]
+
+Flags:
+  -h, --help      help for what-dis
+  -t, --text      Output as text
+  -V, --verbose   More detailed output
+```
 
 ![demo](vhs.gif)
 

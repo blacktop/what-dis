@@ -49,7 +49,7 @@ Set Width 1200
 Set Height 300
 Set PlaybackSpeed 2
 
-Type "what-dis /path/to/image.png"
+Type "what-dis docs/logo.png"
 
 Sleep 500ms
 

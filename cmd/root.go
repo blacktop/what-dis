@@ -34,6 +34,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	verbose bool
+	text    bool
+)
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "what-dis <IMAGE>",
@@ -50,10 +55,15 @@ var rootCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
+		systemMsg := "Provide very brief, concise responses"
+		if verbose {
+			systemMsg = "Provide very clear and detailed responses"
+		}
+
 		messages := []api.Message{
 			{
 				Role:    "system",
-				Content: "Provide very brief, concise responses",
+				Content: systemMsg,
 			},
 			{
 				Role:    "user",
@@ -64,18 +74,29 @@ var rootCmd = &cobra.Command{
 			},
 		}
 
+		var respFunc api.ChatResponseFunc
+
+		if text {
+			respFunc = func(cr api.ChatResponse) error {
+				fmt.Println(cr.Message.Content)
+				return nil
+			}
+		} else {
+			respFunc = func(cr api.ChatResponse) error {
+				cmd := exec.Command("/usr/bin/say", "--rate=200")
+				cmd.Stdin = strings.NewReader(cr.Message.Content)
+				if err := cmd.Run(); err != nil {
+					fmt.Fprintf(os.Stderr, "error: %v\n", err)
+				}
+				return nil
+			}
+		}
+
 		if err := cli.Chat(context.Background(), &api.ChatRequest{
 			Model:    "llama3.2-vision",
 			Messages: messages,
 			Stream:   new(bool),
-		}, func(cr api.ChatResponse) error {
-			cmd := exec.Command("/usr/bin/say", "--rate=200")
-			cmd.Stdin = strings.NewReader(cr.Message.Content)
-			if err := cmd.Run(); err != nil {
-				fmt.Fprintf(os.Stderr, "error: %v\n", err)
-			}
-			return nil
-		}); err != nil {
+		}, respFunc); err != nil {
 			log.Fatal(err)
 		}
 	},
@@ -91,5 +112,6 @@ func Execute() {
 }
 
 func init() {
-
+	rootCmd.Flags().BoolVarP(&verbose, "verbose", "V", false, "More detailed output")
+	rootCmd.Flags().BoolVarP(&text, "text", "t", false, "Output as text")
 }
