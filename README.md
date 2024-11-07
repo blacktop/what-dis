@@ -20,6 +20,11 @@
 
 ## Getting Started
 
+### Requirements
+
+- [ollama](https://ollama.com)
+- `/usr/bin/say` *(might be **macOS** only?)*
+
 ### Install
 
 ```bash
