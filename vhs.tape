@@ -49,7 +49,7 @@ Set Width 1200
 Set Height 600
 Set PlaybackSpeed 2
 
-Type "echo Welcome to VHS Action! 📼"
+Type "what-dis /path/to/image.png"
 
 Sleep 500ms
 
