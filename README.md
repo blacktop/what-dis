@@ -45,7 +45,11 @@ Flags:
   -V, --verbose   More detailed output
 ```
 
-![demo](vhs.gif)
+```bash
+❯ what-dis docs/logo.png --text
+```
+
+> The image depicts a young boy and a robot standing in front of an abstract painting. The boy is wearing a white t-shirt and khaki shorts, while the robot has a sleek, futuristic design with glowing blue eyes and a round body. The background features a gold-framed picture on the wall, adding to the overall sense of wonder and curiosity emanating from the scene.
 
 ## License
 
