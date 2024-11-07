@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/blacktop/what-dis"><img alt="what-dis Logo" src="https://raw.githubusercontent.com/blacktop/what-dis/main/docs/logo.png" /></a>
+  <a href="https://github.com/blacktop/what-dis"><img alt="what-dis Logo" src="https://raw.githubusercontent.com/blacktop/what-dis/main/docs/logo.png" height="512"  /></a>
   <h1 align="center">what-dis</h1>
   <h4><p align="center">Dumb image-to-text experiment</p></h4>
   <p align="center">
