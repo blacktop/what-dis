@@ -22,26 +22,63 @@ THE SOFTWARE.
 package cmd
 
 import (
+	"context"
+	"fmt"
+	"log"
 	"os"
+	"os/exec"
+	"path/filepath"
+	"strings"
 
+	"github.com/ollama/ollama/api"
 	"github.com/spf13/cobra"
 )
 
-
-
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "go-template",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Use:   "what-dis <IMAGE>",
+	Short: "Describe an image",
+	Args:  cobra.ExactArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		data, err := os.ReadFile(filepath.Clean(args[0]))
+		if err != nil {
+			log.Fatal(err)
+		}
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+		cli, err := api.ClientFromEnvironment()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		messages := []api.Message{
+			{
+				Role:    "system",
+				Content: "Provide very brief, concise responses",
+			},
+			{
+				Role:    "user",
+				Content: "What is in this image?",
+			},
+			{
+				Images: []api.ImageData{data},
+			},
+		}
+
+		if err := cli.Chat(context.Background(), &api.ChatRequest{
+			Model:    "llama3.2-vision",
+			Messages: messages,
+			Stream:   new(bool),
+		}, func(cr api.ChatResponse) error {
+			cmd := exec.Command("/usr/bin/say", "--rate=200")
+			cmd.Stdin = strings.NewReader(cr.Message.Content)
+			if err := cmd.Run(); err != nil {
+				fmt.Fprintf(os.Stderr, "error: %v\n", err)
+			}
+			return nil
+		}); err != nil {
+			log.Fatal(err)
+		}
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -54,15 +91,5 @@ func Execute() {
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
 
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.go-template.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
-
-
