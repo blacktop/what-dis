@@ -47,12 +47,12 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		data, err := os.ReadFile(filepath.Clean(args[0]))
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal(fmt.Errorf("could not read image: %w", err))
 		}
 
 		cli, err := api.ClientFromEnvironment()
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal(fmt.Errorf("could not create ollama client: %w", err))
 		}
 
 		systemMsg := "Provide very brief, concise responses"
@@ -97,7 +97,7 @@ var rootCmd = &cobra.Command{
 			Messages: messages,
 			Stream:   new(bool),
 		}, respFunc); err != nil {
-			log.Fatal(err)
+			log.Fatal(fmt.Errorf("could not chat with ollama: %w", err))
 		}
 	},
 }
