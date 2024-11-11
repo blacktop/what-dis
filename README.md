@@ -31,6 +31,8 @@
 go install github.com/blacktop/what-dis@latest
 ```
 
+Or download the latest [release](https://github.com/blacktop/what-dis/releases/latest)
+
 ```bash
 ❯ what-dis
 
