@@ -1,9 +1,10 @@
 module github.com/blacktop/what-dis
 
 go 1.23
+toolchain go1.23.6
 
 require (
-	github.com/ollama/ollama v0.4.0
+	github.com/ollama/ollama v0.5.12
 	github.com/spf13/cobra v1.9.1
 )
 
