@@ -5,7 +5,7 @@ go 1.24.0
 toolchain go1.24.1
 
 require (
-	github.com/ollama/ollama v0.9.6
+	github.com/ollama/ollama v0.10.1
 	github.com/spf13/cobra v1.9.1
 )
 
