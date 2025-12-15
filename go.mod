@@ -3,7 +3,7 @@ module github.com/blacktop/what-dis
 go 1.24.1
 
 require (
-	github.com/ollama/ollama v0.12.10
+	github.com/ollama/ollama v0.13.3
 	github.com/spf13/cobra v1.10.1
 )
 
